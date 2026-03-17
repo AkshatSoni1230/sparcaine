@@ -44,7 +44,7 @@ const Hero = () => (
       <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-8 tracking-tight leading-tight">
         Precision in Pain Management. <br/> 
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
-          Excellence in Care.
+          Excellence in Dental Care.
         </span>
       </h1>
       <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
@@ -52,10 +52,10 @@ const Hero = () => (
       </p>
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
         <a href="#products" className="w-full sm:w-auto px-8 py-4 bg-blue-600 text-white rounded-full font-bold text-lg hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-600/20 transition-all transform hover:-translate-y-1">
-          Explore Portfolio
+          Explore Our Products
         </a>
-        <a href="#about" className="w-full sm:w-auto px-8 py-4 bg-white text-slate-800 border border-slate-200 rounded-full font-bold text-lg hover:bg-slate-50 hover:border-slate-300 transition-all">
-          Our Story
+        <a href="#contact" className="w-full sm:w-auto px-8 py-4 bg-white text-slate-800 border border-slate-200 rounded-full font-bold text-lg hover:bg-slate-50 hover:border-slate-300 transition-all">
+          Partner With Us
         </a>
       </div>
     </div>
@@ -167,7 +167,7 @@ const Products = () => (
             </h4>
             <ul className="space-y-3 text-slate-600 font-medium">
               <li className="flex items-center gap-2">✓ Clinical-grade glass cartridges</li>
-              <li className="flex items-center gap-2">✓ 1.8 ml volume</li>
+              <li className="flex items-center gap-2">✓ 1.8 ml volume per cartridge.</li>
               <li className="flex items-center gap-2">✓ Optimized 50-pack</li>
             </ul>
           </div>
@@ -204,8 +204,8 @@ const Products = () => (
             </h4>
             <ul className="space-y-3 text-slate-600 font-medium">
               <li className="flex items-center gap-2">✓ Clinical-grade glass cartridges</li>
-              <li className="flex items-center gap-2">✓ 1.8 ml volume</li>
-              <li className="flex items-center gap-2">✓ 50-cartridge packs</li>
+              <li className="flex items-center gap-2">✓ 1.8 ml volume per cartridge</li>
+              <li className="flex items-center gap-2">✓ Optimized 50-pack</li>
             </ul>
           </div>
         </div>
@@ -214,7 +214,7 @@ const Products = () => (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
           <div className="bg-slate-900 rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300">
             <h4 className="text-xl font-bold text-white mb-3">Spargel B</h4>
-            <p className="text-slate-400 leading-relaxed">Premium topical anesthetic gel providing fast-acting surface numbing prior to injection.</p>
+            <p className="text-slate-400 leading-relaxed">Premium topical anesthetic gel providing fast-acting surface numbing prior to injection or minor procedures.</p>
           </div>
           <div className="bg-slate-900 rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300">
             <h4 className="text-xl font-bold text-white mb-3">Precision Needles</h4>
@@ -222,7 +222,7 @@ const Products = () => (
           </div>
           <div className="bg-slate-900 rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300">
             <h4 className="text-xl font-bold text-white mb-3">Medispark Portfolio</h4>
-            <p className="text-slate-400 leading-relaxed">Nutraceuticals including BioVit C, Derma Glow, Painova, VITA CDZ, and REGEN.</p>
+            <p className="text-slate-400 leading-relaxed">Explore our comprehensive range of nutraceuticals and specialized formulations, including Bio Vit C, Derma Glow, Painova, VITA CDZ, REGEN and more.</p>
           </div>
         </div>
       </div>
