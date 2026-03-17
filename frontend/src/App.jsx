@@ -246,23 +246,58 @@ const Careers = () => (
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', country: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState(null);
   
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   
-  const handleWhatsAppSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const text = `*New Inquiry from Sparcaine Website*%0A%0A*Name:* ${formData.name}%0A*Company:* ${formData.company}%0A*Email:* ${formData.email}%0A*Phone:* ${formData.phone}%0A*Country:* ${formData.country}%0A*Message:* ${formData.message}`;
-    
-    // REPLACE WITH YOUR ACTUAL WHATSAPP NUMBER
-    const whatsappNumber = "919876543210"; 
-    
-    window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // Pointing to your local FastAPI backend. Change this URL when deploying to Render.
+      const response = await fetch('http://localhost:8000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error('Failed to send message');
+      
+      setIsSubmitted(true);
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-32 text-center animate-fade-in">
+        <div className="bg-green-50 text-green-800 p-8 rounded-xl border border-green-200 shadow-sm">
+          <h2 className="text-3xl font-bold mb-4">Message Sent!</h2>
+          <p className="text-lg">Thank you for reaching out to Sparcaine. Our team will get back to you shortly.</p>
+          <button 
+            onClick={() => setIsSubmitted(false)} 
+            className="mt-8 bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition"
+          >
+            Send Another Message
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-16">
       <h2 className="text-3xl font-bold text-blue-900 mb-8 text-center">Get in Touch</h2>
-      <form onSubmit={handleWhatsAppSubmit} className="bg-white p-8 shadow-sm rounded-xl border border-gray-100 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white p-8 shadow-sm rounded-xl border border-gray-100 space-y-6 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <input required type="text" name="name" placeholder="Full Name" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500" />
           <input type="text" name="company" placeholder="Company Name" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500" />
@@ -271,8 +306,15 @@ const Contact = () => {
           <input required type="text" name="country" placeholder="Country" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <textarea required name="message" rows="4" placeholder="Area of Interest / Your Message" onChange={handleChange} className="w-full p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-        <button type="submit" className="w-full bg-green-500 text-white font-bold py-3 rounded-md hover:bg-green-600 transition flex justify-center items-center gap-2">
-          Send via WhatsApp
+        
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+        
+        <button 
+          type="submit" 
+          disabled={isSubmitting}
+          className={`w-full text-white font-bold py-3 rounded-md transition flex justify-center items-center gap-2 ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+        >
+          {isSubmitting ? 'Sending...' : 'Send Message'}
         </button>
       </form>
     </div>
