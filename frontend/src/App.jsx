@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Chart } from "react-google-charts";
 import logo from './assets/logo.png'; // Make sure your logo is still here!
 
 // --- LAYOUT COMPONENTS ---
@@ -230,45 +231,86 @@ const Products = () => (
   </section>
 );
 
-const GlobalReach = () => (
-  <section id="global-reach" className="py-32 bg-white">
-    <div className="max-w-7xl mx-auto px-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div>
-          <h2 className="text-sm font-bold text-blue-600 tracking-widest uppercase mb-3">Expansion</h2>
-          <h3 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Global Footprint</h3>
-          <p className="text-xl text-slate-600 mb-10 font-light">Trusted by healthcare professionals across the globe, with a rapidly expanding network.</p>
+const GlobalReach = () => {
+  const markets = ['UAE', 'Ghana', 'Kenya', 'Tanzania', 'Rwanda', 'Somalia', 'Djibouti'];
+
+  // THE FIX: We use specific cities. Google's geocoder finds them instantly 
+  // and drops the pins exactly where they belong. Zero coordinates used.
+  const geoData = [
+    ["City", "Operations"],
+    ["Ahmedabad, India", 2], // Value of 2 makes the HQ dot slightly larger
+    ["Dubai, United Arab Emirates", 1],
+    ["Accra, Ghana", 1],
+    ["Nairobi, Kenya", 1],
+    ["Dodoma, Tanzania", 1],
+    ["Kigali, Rwanda", 1],
+    ["Mogadishu, Somalia", 1],
+    ["Djibouti City, Djibouti", 1],
+  ];
+
+  const geoOptions = {
+    backgroundColor: "transparent",
+    datalessRegionColor: "#1e293b", // Dark slate landmass
+    displayMode: "markers", // Forces the pins to drop
+    colorAxis: { colors: ["#3b82f6", "#60a5fa"] }, // Your brand's blue
+    legend: "none",
+    sizeAxis: { minValue: 1, maxValue: 2, minSize: 8, maxSize: 14 }, // Guarantees dots are big and visible
+    tooltip: { trigger: "focus" } // Ensures hover works smoothly
+  };
+
+  return (
+    <section id="global" className="py-24 md:py-32 bg-slate-900 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           
-          <div className="space-y-6 mb-10">
-            <div>
-              <h4 className="text-lg font-bold text-slate-800 mb-3">Current Export Markets</h4>
-              <div className="flex flex-wrap gap-2">
-                {['UAE', 'Ghana', 'Kenya', 'Tanzania', 'Rwanda', 'Somalia', 'Djibouti'].map(c => (
-                  <span key={c} className="px-4 py-2 bg-blue-50 border border-blue-100 text-blue-700 rounded-lg text-sm font-semibold">{c}</span>
-                ))}
-              </div>
+          {/* --- Text Content --- */}
+          <div className="w-full lg:w-1/3">
+            <div className="mb-10">
+              <p className="text-xs font-black uppercase tracking-[0.2em] mb-3 text-blue-400">Expansion</p>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">Global Footprint</h2>
             </div>
-            <div>
-              <h4 className="text-lg font-bold text-slate-800 mb-2">Domestic Network</h4>
-              <p className="text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                Powerful distribution across India, supported by partners like <span className="font-bold text-slate-800">Skydent Surgical Corp</span> in Gujarat.
+            
+            <p className="text-slate-400 text-lg mb-8 font-light leading-relaxed">
+              From our manufacturing hub in India, Sparcaine clinical solutions are reaching dental professionals across the Middle East and Africa.
+            </p>
+
+            <div className="flex flex-wrap gap-2 mb-10">
+              {markets.map((m) => (
+                <span key={m} className="px-4 py-2 bg-slate-800/80 border border-slate-700 rounded-lg text-blue-300 text-sm font-bold shadow-sm">
+                  {m}
+                </span>
+              ))}
+            </div>
+
+            <div className="p-6 bg-blue-900/20 border border-blue-500/20 rounded-2xl backdrop-blur-sm">
+              <h4 className="text-blue-400 font-bold mb-2">Partnering for the Future</h4>
+              <p className="text-sm text-slate-400">
+                Actively seeking strategic distribution partners in Southeast Asia and Saudi Arabia.
               </p>
             </div>
           </div>
-        </div>
 
-        <div className="bg-blue-600 rounded-[2.5rem] p-12 text-center text-white shadow-2xl shadow-blue-600/30">
-          <svg className="w-16 h-16 mx-auto mb-6 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          <h3 className="text-3xl font-bold mb-4">Become a Partner</h3>
-          <p className="text-blue-100 mb-8 text-lg">Seeking strategic distributors, dealers, and JV partners in Myanmar, SEA, Africa, and Saudi Arabia.</p>
-          <a href="#contact" className="inline-block w-full bg-white text-blue-600 font-bold py-4 rounded-xl hover:bg-slate-50 transition-colors">
-            Inquire About Distribution
-          </a>
+          {/* --- The Fixed Google Map --- */}
+          <div className="w-full lg:w-2/3">
+            <div className="relative w-full bg-slate-800/30 rounded-3xl border border-white/10 p-4 shadow-2xl backdrop-blur-md overflow-hidden">
+              {/* Explicit styles prevent the Google Chart from collapsing */}
+              <div style={{ width: "100%", height: "450px" }}>
+                <Chart
+                  chartType="GeoChart"
+                  width="100%"
+                  height="100%"
+                  data={geoData}
+                  options={geoOptions}
+                />
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const Careers = () => (
   <section id="careers" className="py-24 bg-slate-900 text-center">
